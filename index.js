@@ -10,7 +10,17 @@ let obj = [
     title: "Samson",
     category: "car",
   },
-
+  {
+    name: "Houses & Villas",
+    img: "https://apollo-singapore.akamaized.net/v1/files/sdzvka1ddq2q-IN/image;s=780x0;q=60",
+    loc: "Allanpalan Nagar, Puthukkad, Kerala",
+    price: "₹ 85,00,000",
+    Description:
+      "Total 15.9 cents with 2300 sq ft. Home, Tar road frontage. Full of greenery,",
+    title: "Vimal Francis",
+    posting_date: "1-DEC-21",
+    category: "house",
+  },
   {
     name: "Toyota Yaris (2018)",
     img: "https://apollo-singapore.akamaized.net/v1/files/bplugx2g3jv12-IN/image;s=780x0;q=60",
@@ -21,6 +31,17 @@ let obj = [
       "Full company service, service history, done 40000 km service on 6/3/2023,Tyre changed at 37000 km FULL OPTION- 7- AIR BAGS -airbags motorised seat push button start",
     title: "Puthiyedath Used Cars",
     category: "car",
+  },
+  {
+    name: "Apartments",
+    img: "https://apollo-singapore.akamaized.net/v1/files/673gda00e47k3-IN/image;s=780x0;q=60",
+    loc: "Anayara, Thiruvananthapuram, Kerala",
+    price: "₹ 80,00,000",
+    description:
+      "Redbrick house for sale at anayara..1500 sqft 3 cents 3 bedroom.. asking price 80 lakhs",
+    title: "Salman",
+    posting_date: "1-MAY-20",
+    category: "house",
   },
   {
     name: "Tata Nexon (2019)",
@@ -550,28 +571,6 @@ let obj = [
     category: "house",
   },
   {
-    name: "Houses & Villas",
-    img: "https://apollo-singapore.akamaized.net/v1/files/sdzvka1ddq2q-IN/image;s=780x0;q=60",
-    loc: "Allanpalan Nagar, Puthukkad, Kerala",
-    price: "₹ 85,00,000",
-    Description:
-      "Total 15.9 cents with 2300 sq ft. Home, Tar road frontage. Full of greenery,",
-    title: "Vimal Francis",
-    posting_date: "1-DEC-21",
-    category: "house",
-  },
-  {
-    name: "Apartments",
-    img: "https://apollo-singapore.akamaized.net/v1/files/673gda00e47k3-IN/image;s=780x0;q=60",
-    loc: "Anayara, Thiruvananthapuram, Kerala",
-    price: "₹ 80,00,000",
-    description:
-      "Redbrick house for sale at anayara..1500 sqft 3 cents 3 bedroom.. asking price 80 lakhs",
-    title: "Salman",
-    posting_date: "1-MAY-20",
-    category: "house",
-  },
-  {
     name: "Apartments",
     img: "https://apollo-singapore.akamaized.net/v1/files/a7h9ng5sgj7q-IN/image;s=780x0;q=60",
     loc: "Pattom, Thiruvananthapuram, Kerala",
@@ -935,10 +934,16 @@ let obj = [
 let cardParent = document.getElementById("card_parent");
 let cars = document.getElementById("cars");
 let moto = document.getElementById("moto");
+let mob = document.getElementById("mob");
+let houses = document.getElementById("houses");
+const scooter = document.getElementById("scooter");
+let vehicles= document.getElementById("vehicles");
+let category_select = document.getElementById("category_select");
+
+
 
 function showdata(data) {
   for (let i = 0; i < data.length; i++) {
-    console.log(data[i]);
     let { name, img, loc, posting_date, price } = data[i];
 
     let div = document.createElement("div");
@@ -956,17 +961,18 @@ function showdata(data) {
 
     div.addEventListener("click", function () {
       let arr = [];
-      if (data[i + 1]) {
+      if (data[i + 4]) {
         arr.push(data[i + 1]);
-      }
-      if (data[i + 2]) {
         arr.push(data[i + 2]);
+        arr.push(data[i + 3]);
+        arr.push(data[i + 4]);
       }
-      if (data[i - 1]) {
+      else{
         arr.push(data[i - 1]);
-      }
-      if (data[i - 2]) {
         arr.push(data[i - 2]);
+        arr.push(data[i - 3]);
+        arr.push(data[i - 4]);
+
       }
       localStorage.setItem(
         "product_details",
@@ -995,6 +1001,32 @@ cars.addEventListener("click", function () {
 });
 moto.addEventListener("click", function () {
   filterByCategory("moto");
+});
+
+scooter.addEventListener("click", function () {
+  filterByCategory("scooter");
+});
+houses.addEventListener("click", function (){
+  filterByCategory("house")
+})
+mob.addEventListener("click", function (){
+  filterByCategory("mobile")
+})
+vehicles.addEventListener("click", function (){
+  filterByCategory("other vehicles")
+})
+
+
+
+
+
+category_select.addEventListener("change", function () {
+  if (category_select.value == "All") {
+    cardParent.innerHTML = null;
+    showdata(obj);
+  } else {
+    filterByCategory(category_select.value);
+  }
 });
 
 function filterByCategory(category) {
