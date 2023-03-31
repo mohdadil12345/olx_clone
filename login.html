@@ -1,12 +1,98 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
-</head>
-<body>
-    <h2>login Page</h2>
-</body>
+  </head>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      text-decoration: none;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+        Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue",
+        sans-serif;
+    }
+    #register_form {
+        display: none;
+    }
+    #login {
+      width: 500px;
+      display: flex;
+      flex-direction: column;
+      gap: 30px;
+      margin: 50px auto;
+    }
+    #login_form {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+  </style>
+  <body>
+    <div id="login">
+      <h2>login Page</h2>
+      <form id="login_form">
+        <input id="login_email" type="text" placeholder="email" />
+        <input id="login_pass" type="text" placeholder="password" />
+        <input type="submit" value="Login" />
+      </form>
+    </div>
+    <div id="register">
+      <form id="register_form">
+        <input id="name" type="text" placeholder="username" required />
+        <input id="email" type="email" placeholder="email" required />
+        <input id="password" type="password" placeholder="password" required />
+        <input type="submit" value="Register" />
+      </form>
+    </div>
+  </body>
 </html>
+<script>
+  let register = document.getElementById("register");
+  let register_form = document.getElementById("register_form");
+  let login = document.getElementById("login");
+  let login_form = document.getElementById("login_form");
+
+  register_form.addEventListener("submit", function (e) {
+    e.preventDefault();
+    let email = document.getElementById("email");
+    let password = document.getElementById("password");
+    let name = document.getElementById("name");
+    let data = {
+      name: name.value,
+      email: email.value,
+      password: password.value,
+    };
+    let userRegistered = JSON.parse(localStorage.getItem("user-registered"));
+    if (userRegistered) {
+      userRegistered.push(data);
+      localStorage.setItem("user-registered", JSON.stringify(userRegistered));
+    } else {
+      localStorage.setItem("user-registered", JSON.stringify([data]));
+    }
+    register.style.display = 'none'
+    login.style.display = 'block'
+  });
+
+
+  login_form.addEventListener("submit", function (e) {
+    e.preventDefault();
+    let email = document.getElementById("login_email");
+    let password = document.getElementById("login_pass");
+   
+    let userRegistered = JSON.parse(localStorage.getItem("user-registered"));
+    if (userRegistered) {
+      let filtered_user = userRegistered.find((user)=> user.email == email.value && user.password == password.value)
+      console.log(filtered_user);
+      if (filtered_user) {
+        localStorage.setItem('user-logged-in' , filtered_user.name)
+        window.location.href = 'index.html'
+      }
+    } 
+   
+  });
+</script>

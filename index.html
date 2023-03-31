@@ -73,12 +73,9 @@
       justify-content: center;
     }
     .card {
-      /* height: 400px; */
-      /* background-color: rgb(247, 244, 244); */
       border-radius: 8px;
       padding: 20px;
       cursor: pointer;
-      /* border: 1px solid rgb(182, 182, 182); */
       box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
       background-color: white;
     }
@@ -168,6 +165,11 @@
       margin: 20px auto;
       width: max-content;
     }
+    .login-logout{
+      display: flex;
+    align-items: center;
+    }
+ 
   </style>
   <body>
     <!-- nav -->
@@ -188,8 +190,9 @@
         <button id="searchbtn">Seacrh</button>
       </div>
       <h3>ENGLISH</h3>
-      <div>
-        <a href="#">Login</a>
+      <div class="login-logout">
+        <p id="login-name"></p>
+        <a href="login.html" id="isloggedin"> Login</a>
       </div>
     </div>
     <!-- header -->
