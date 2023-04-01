@@ -1,6 +1,18 @@
 let product_details = JSON.parse(localStorage.getItem("product_details"));
 
 let product_parent = document.getElementById("product_parent");
+let cardParent = document.getElementById("card_parent");
+let isloggedin = document.getElementById("isloggedin");
+let loginName = document.getElementById("login-name");
+let loggedInName = localStorage.getItem('user-logged-in')
+if (loggedInName) {
+  loginName.innerText = loggedInName
+  isloggedin.innerText = 'logout'
+  isloggedin.href = 'index.html'
+  isloggedin.addEventListener('click' , function () {
+    localStorage.removeItem('user-logged-in')
+  })
+}
 
 function show_product(data) {
   console.log(data.related);
@@ -52,4 +64,35 @@ function show_product(data) {
   // let image = document.getElementById('abcd')
 }
 show_product(product_details);
+
+function showdata(data) {
+
+  for (let i = 0; i < data.length; i++) {
+    let { name, img, loc, posting_date, price } = data[i];
+
+    let div = document.createElement("div");
+    div.classList.add("card");
+    div.innerHTML = `
+        <h3>${name}</h3>
+        <div class="box_img">
+            <img src="${img}" alt="">
+        </div>
+        <h3>${price}</h3>
+        <div class="loc_detail">
+            <p class="loc_text">${loc}</p>
+            <p>${posting_date}</p>
+        </div>`;
+
+    div.addEventListener("click", function () {
+      localStorage.setItem(
+        "product_details",
+        JSON.stringify({ product: data[i], related: data })
+      );
+      window.location.href = "details.html";
+    });
+
+    cardParent.append(div);
+  }
+}
+showdata(product_details.related);
 

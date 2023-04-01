@@ -45,7 +45,7 @@ let obj = [
   },
   {
     name: "Tata Nexon (2019)",
-    img: "https://apollo-singapore.akamaized.net/v1/files/1jspqwd8xyt02-IN/image;s=780x0;q=60",
+    img: "https://apollo-singapore.akamaized.net/v1/files/2oeta1hnwg6h1-IN/image;s=780x0;q=60",
     posting_date: "28-MAR-23",
     loc: "Chinnakada, Kollam",
     price: "₹ 7,65,000",
@@ -223,7 +223,7 @@ let obj = [
   {
     name: "BMW G310 R",
     img: "https://apollo-singapore.akamaized.net/v1/files/mphovp83gx4k2-IN/image;s=780x0;q=60",
-    loc: "Kakkanad, Kochi, Kerala",
+    loc: "Kakkanad, Kochi, Kolkata",
     price: "₹ 2,69,000",
     posting_date: "04-dec-23",
     description:
@@ -453,7 +453,7 @@ let obj = [
   {
     name: "iPhone",
     img: "https://apollo-singapore.akamaized.net/v1/files/pe1m27fxrz7p2-IN/image;s=780x0;q=60",
-    loc: "Kaithakuzhy, Adichanalloor, Kerala",
+    loc: "Kaithakuzhy, Adichanalloor, Kolkata",
     price: "₹ 20,499",
     description:
       "IPHONE 13 PRO MAX,Warranty phone and non warranty phone available,Warranty remain full with bill,2 wéek shop check warranty available",
@@ -650,7 +650,7 @@ let obj = [
   {
     name: "Palace",
     img: "https://apollo-singapore.akamaized.net/v1/files/9qjwet3wawt5-IN/image;s=780x0;q=60",
-    loc: "Edapally, Kochi, Kerala",
+    loc: "Edapally, Kochi, Kolkata",
     price: "₹ 33,00,000",
     description:
       "3BHK 850SQ 3Cent New House Near Kongorpilly Neericode,Higher floor 1677 sqft semi furnished flat in Sobha City. Price Rs 125 lac.,3 Bedroom With Attached bathrooms",
@@ -847,7 +847,7 @@ let obj = [
   {
     name: "Pick-up trucks",
     img: "https://apollo-singapore.akamaized.net/v1/files/685ncgfrqpyo3-IN/image;s=780x0;q=60",
-    loc: "Madavoor, Kozhikode, Kerala",
+    loc: "Madavoor, Kozhikode, Kolkata",
     price: "₹ 4,18,000",
     title: "Adil",
     posting_date: "01-JULY-20",
@@ -937,23 +937,21 @@ let moto = document.getElementById("moto");
 let mob = document.getElementById("mob");
 let houses = document.getElementById("houses");
 const scooter = document.getElementById("scooter");
-let vehicles= document.getElementById("vehicles");
+let vehicles = document.getElementById("vehicles");
+let fav = document.getElementById("fav");
 let category_select = document.getElementById("category_select");
 let isloggedin = document.getElementById("isloggedin");
 let loginName = document.getElementById("login-name");
-let loggedInName = localStorage.getItem('user-logged-in')
+let loggedInName = localStorage.getItem("user-logged-in");
 if (loggedInName) {
-  loginName.innerText = loggedInName
-  isloggedin.innerText = 'logout'
-  isloggedin.href = 'index.html'
-  isloggedin.addEventListener('click' , function () {
-    localStorage.removeItem('user-logged-in')
-  })
+  loginName.innerText = loggedInName;
+  isloggedin.innerText = "logout";
+  isloggedin.href = "index.html";
+  isloggedin.addEventListener("click", function () {
+    localStorage.removeItem("user-logged-in");
+  });
 }
-
-
-
-
+let alertmsg = document.getElementById("alert");
 
 function showdata(data) {
   for (let i = 0; i < data.length; i++) {
@@ -961,31 +959,72 @@ function showdata(data) {
 
     let div = document.createElement("div");
     div.classList.add("card");
-    div.innerHTML = `
+    let div1 = document.createElement("div");
+    let div2 = document.createElement("div");
+    div2.classList.add("favorites");
+    let heart = document.createElement("h1");
+    heart.innerText = "🤍";
+    heart.onclick = function () {
+      console.log(name);
+    };
+    heart.addEventListener("click", function () {
+      if (loggedInName) {
+        
+        heart.innerText = "❤️";
+        let fav = JSON.parse(localStorage.getItem("favorite-products"));
+        if (fav) {
+          fav.push(data[i]);
+          localStorage.setItem("favorite-products", JSON.stringify(fav));
+        } else {
+          localStorage.setItem("favorite-products", JSON.stringify([data[i]]));
+        }
+        // alertmsg.style.display = 'block'
+        alertmsg.style.right = '10px'
+        alertmsg.innerHTML = `<p>✔️ ${name} Added to Your Favourites</p>
+        <img src=${img}>`
+        alertmsg.classList.remove("warning");
+        alertmsg.classList.add("success");
+        setTimeout(() => {
+          alertmsg.style.right = '-400px'
+        }, 3000);
+      }
+      else{
+        alertmsg.style.right = "10px";
+        alertmsg.innerHTML = `<p>❌ Please Login to Add Products to Favorites</p>`;
+        alertmsg.classList.remove("success");
+        alertmsg.classList.add("warning");
+        setTimeout(() => {
+          alertmsg.style.right = "-400px";
+        }, 4000);
+      }
+      
+    });
+    div2.append(heart);
+    div1.innerHTML = `
         <h3>${name}</h3>
         <div class="box_img">
             <img src="${img}" alt="">
         </div>
-        <h3>${price}</h3>
+        <div class="detail">
+          <h3>${price}</h3>
+        </div>
         <div class="loc_detail">
             <p class="loc_text">${loc}</p>
             <p>${posting_date}</p>
         </div>`;
 
-    div.addEventListener("click", function () {
+    div1.addEventListener("click", function () {
       let arr = [];
       if (data[i + 4]) {
         arr.push(data[i + 1]);
         arr.push(data[i + 2]);
         arr.push(data[i + 3]);
         arr.push(data[i + 4]);
-      }
-      else{
+      } else {
         arr.push(data[i - 1]);
         arr.push(data[i - 2]);
         arr.push(data[i - 3]);
         arr.push(data[i - 4]);
-
       }
       localStorage.setItem(
         "product_details",
@@ -993,7 +1032,7 @@ function showdata(data) {
       );
       window.location.href = "details.html";
     });
-
+    div.append(div2, div1);
     cardParent.append(div);
   }
 }
@@ -1020,19 +1059,31 @@ moto.addEventListener("click", function () {
 scooter.addEventListener("click", function () {
   filterByCategory("scooter");
 });
-houses.addEventListener("click", function (){
-  filterByCategory("house")
-})
-mob.addEventListener("click", function (){
-  filterByCategory("mobile")
-})
-vehicles.addEventListener("click", function (){
-  filterByCategory("other vehicles")
-})
+houses.addEventListener("click", function () {
+  filterByCategory("house");
+});
+mob.addEventListener("click", function () {
+  filterByCategory("mobile");
+});
+vehicles.addEventListener("click", function () {
+  filterByCategory("other vehicles");
+});
+let locationFilter = document.getElementById('location-filter')
+locationFilter.addEventListener("click", function (e) {
+  let filter_data = obj.filter((elem) => elem.loc.toLowerCase().includes(e.target.value));
+  cardParent.innerHTML = null;
+  showdata(filter_data);
+});
 
-
-
-
+fav.addEventListener("click", function () {
+  let fav_item = JSON.parse(localStorage.getItem("favorite-products"));
+  cardParent.innerHTML = null;
+  showdata(fav_item);
+  let favHeart = document.querySelectorAll('.favorites h1')
+  for (let i = 0; i < favHeart.length; i++) {
+    favHeart[i].innerText = '❤️'
+  }
+});
 
 category_select.addEventListener("change", function () {
   if (category_select.value == "All") {
@@ -1048,4 +1099,3 @@ function filterByCategory(category) {
   cardParent.innerHTML = null;
   showdata(filter_data);
 }
-
