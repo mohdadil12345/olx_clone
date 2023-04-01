@@ -985,7 +985,7 @@ function showdata(data) {
         alertmsg.classList.remove("warning");
         alertmsg.classList.add("success");
         setTimeout(() => {
-          alertmsg.style.right = '-400px'
+          alertmsg.style.right = '-100%'
         }, 3000);
       }
       else{
@@ -994,7 +994,7 @@ function showdata(data) {
         alertmsg.classList.remove("success");
         alertmsg.classList.add("warning");
         setTimeout(() => {
-          alertmsg.style.right = "-400px";
+          alertmsg.style.right = "100%";
         }, 4000);
       }
       
